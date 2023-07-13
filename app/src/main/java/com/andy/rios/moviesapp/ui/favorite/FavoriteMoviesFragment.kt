@@ -52,13 +52,14 @@ class FavoriteMoviesFragment : Fragment() {
 
     private fun setupRecyclerView() = with(binding.recyclerViewFavorite) {
         adapter = movieFavoriteAdapter
-        setHasFixedSize(true)
-        setItemViewCacheSize(0)
     }
 
     private fun observeViewModel() = with(viewModel) {
         launchAndRepeatWithViewLifecycle {
             launch { moviesFavorite.collect { movieFavoriteAdapter.submitData(it) } }
         }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 }

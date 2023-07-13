@@ -13,7 +13,7 @@ interface MovieApi {
         @Query("page") page: Int,
     ): MovieMainData
 
-    @GET("/movies/{id}")
+    @GET("movie/{id}")
     suspend fun getMovie(@Path("id") movieId: Int): MovieData
 
     @GET("search/movie?include_adult=false&language=ES")

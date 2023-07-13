@@ -44,6 +44,9 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             tools:text="@string/movies"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:gravity="center"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +56,8 @@
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             tools:text="@string/movies"
+            android:textAlignment="center"
+            android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +74,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="30dp"
-                android:src="@drawable/ic_launcher_background"
+                android:src="@drawable/baseline_star_rate_24"
                 android:layout_height="30dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView

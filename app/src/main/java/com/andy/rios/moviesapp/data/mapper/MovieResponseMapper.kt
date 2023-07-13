@@ -7,7 +7,7 @@ import com.andy.rios.moviesapp.domain.model.MovieEntity
 
 fun MovieData.toDomain() = MovieEntity(
     id = id,
-    backdrop_path = backdrop_path,
+    backdrop_path = URL_IMAGE + backdrop_path,
     overview = overview,
     title = title,
     vote_average = vote_average,

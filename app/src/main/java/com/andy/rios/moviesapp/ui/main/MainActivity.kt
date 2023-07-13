@@ -34,11 +34,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavController() {
-//        val navController = findNavController(R.id.container)
         binding.navigationView.setupWithNavController(navController)
 
     }
-
-
 
 }

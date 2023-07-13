@@ -21,7 +21,6 @@ class MovieAdapter(
 
     var onItemClick: (item: MovieList) -> Unit = { _ -> }
 
-
     override fun onBindViewHolder(holder: HolderMovies, position: Int) {
         val item = getItem(position)
         holder.onBind(item, onItemClick)
@@ -57,7 +56,11 @@ class MovieAdapter(
             .into(image)
 
         private fun setDate(dateMovie: String): String {
-            val date = simpleDateFormat(dateMovie, "yyyy-MM-dd")
+            var dateMovies : String = dateMovie
+            if(dateMovie.isEmpty()){
+                dateMovies = "1990-01-01"
+            }
+            val date = simpleDateFormat(dateMovies, "yyyy-MM-dd")
             val dayOfWeek = android.text.format.DateFormat.format("EEEE", date)
             val day = android.text.format.DateFormat.format("d", date)
             val monthString = android.text.format.DateFormat.format("MMMM", date)

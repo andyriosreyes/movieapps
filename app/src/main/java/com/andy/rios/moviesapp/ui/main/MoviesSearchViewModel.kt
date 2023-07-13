@@ -1,16 +1,30 @@
 package com.andy.rios.moviesapp.ui.main
 
+import android.app.appsearch.SearchResult
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.andy.rios.moviesapp.common.State
 import com.andy.rios.moviesapp.domain.usecase.SearchMovieUseCase
 import com.andy.rios.moviesapp.ui.model.MovieList
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.switchMap
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,16 +33,20 @@ class MoviesSearchViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    companion object {
-        const val KEY_QUERY = "query"
+    private val t = MutableLiveData("")
+
+    val moviesSearch = t.switchMap { query ->
+        searchMovieUseCase(query, 30).cachedIn(viewModelScope).asLiveData()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val moviesSearch: Flow<PagingData<MovieList>> = savedStateHandle.getStateFlow(KEY_QUERY, "").flatMapLatest {
-        searchMovieUseCase(it, 30).cachedIn(viewModelScope)
-    }
+    data class SearchUiState(
+        val pagingData: MovieList = MovieList(),
+        val showLoading: Boolean = false,
+        val showNoMoviesFound: Boolean = false,
+        val errorMessage: String? = null
+    )
 
-    fun onSearchQuery(query: String) {
-        savedStateHandle[KEY_QUERY] = query
+    fun onSearchQuery(query: String){
+        t.value = query
     }
 }

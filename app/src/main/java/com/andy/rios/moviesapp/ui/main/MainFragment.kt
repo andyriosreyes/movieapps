@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import com.andy.rios.moviesapp.R
 import com.andy.rios.moviesapp.databinding.FragmentMainBinding
 import com.andy.rios.moviesapp.ui.util.launchAndRepeatWithViewLifecycle
@@ -64,15 +65,12 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun performSearch(query: String) {
-        binding.txtSearch.setText(query)
-        //viewModel.searchPhotos(query)
-    }
-
     private fun observeViewModel() = with(viewModel) {
         launchAndRepeatWithViewLifecycle {
             launch {
-                movies.collect { movieAdapter.submitData(it) }
+                movies.collect {
+//                    movieAdapter.submitData(PagingData.empty())
+                    movieAdapter.submitData(it) }
             }
         }
     }
@@ -80,7 +78,9 @@ class MainFragment : Fragment() {
     private fun observeViewSearchModel() = with(viewSearchModel) {
         launchAndRepeatWithViewLifecycle {
             launch {
-                moviesSearch.collect { movieAdapter.submitData(it) }
+                moviesSearch.observe(viewLifecycleOwner){
+                        movieAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+                }
             }
         }
     }
