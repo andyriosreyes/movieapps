@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MoviesApp</string>
+    <string name="movies">Movies</string>
+    <string name="favorites">Favorites</string>
+    <string name="retry">Retry</string>
+    <string name="hint_search">Search movie</string>
+</resources>
